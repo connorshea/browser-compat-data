@@ -8,8 +8,7 @@
 
 @font-face {
     font-family: compat-icons;
-    src: url("../../fonts/compat-icons.54cc6daa3fff.eot");
-    src: url("../../fonts/compat-icons.54cc6daa3fff.eot?#iefix") format("embedded-opentype"),url("../../fonts/compat-icons.dae9f407d8a7.woff2") format("woff2"),url("../../fonts/compat-icons.a569c8f214d7.woff") format("woff"),url("../../fonts/compat-icons.b292aaedadb2.ttf") format("truetype");
+    src: url("compat-icons.woff2") format("woff2");
     font-weight: 400;
     font-style: normal
 }
