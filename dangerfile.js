@@ -1,4 +1,5 @@
 const { danger, fail, markdown, message, peril, schedule, warn } = require('danger');
+const fs = require('fs');
 
 const modified = danger.git.modified_files;
 const newFiles = danger.git.created_files;
@@ -20,9 +21,16 @@ modified.forEach(function(fileName) {
 
 
 function renderTable(json) {
-  console.log(json);
+  // console.log(json);
 
-  console.log(render(json, { 'query': 'css.at-rules.font-face' }));
+  fs.writeFile(
+    'file.html',
+    render(json, { 'query': 'css.at-rules.font-face.WOFF', 'depth': '6' }),
+    (err) => {
+      if (err) throw err;
+      console.log('The file has been saved!');
+    }
+  );
 };
 
 /*
@@ -63,7 +71,8 @@ const browsers = {
 /* The rendering function */
 function render(compatData, configuration) {
   const bcd = require('.');
-  console.log(bcd.webextensions.api.alarms);
+  // console.log(bcd.webextensions.api.alarms);
+  // console.log(compatData);
   const query = configuration.query
   const depth = configuration.depth || 1
   const forMDNURL = configuration.forMDNURL
