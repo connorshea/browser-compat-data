@@ -26,7 +26,6 @@
   "homepage": "https://github.com/mdn/browser-compat-data#readme",
   "devDependencies": {
     "ajv": "^5.0.1",
-    "mdn-confluence": "0.0.3",
     "danger": "3.7.1"
   },
   "scripts": {
