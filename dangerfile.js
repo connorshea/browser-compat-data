@@ -23,9 +23,12 @@ modified.forEach(function(fileName) {
 function renderTable(json) {
   // console.log(json);
 
+  let prefix = `<!DOCTYPE html><html><head><link href="file.css" rel="stylesheet" type="text/css"></head><body>`;
+  let suffix = `</body></html>`;
+
   fs.writeFile(
     'file.html',
-    render(json, { 'query': 'css.at-rules.font-face.WOFF', 'depth': '6' }),
+    '' + prefix + render(json, { 'query': 'css.at-rules.font-face.WOFF', 'depth': '6' }) + suffix,
     (err) => {
       if (err) throw err;
       console.log('The file has been saved!');
