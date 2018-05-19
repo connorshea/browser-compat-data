@@ -73,9 +73,6 @@ const browsers = {
 
 /* The rendering function */
 function render(compatData, configuration) {
-  const bcd = require('.');
-  // console.log(bcd.webextensions.api.alarms);
-  // console.log(compatData);
   const query = configuration.query
   const depth = configuration.depth || 1
   const forMDNURL = configuration.forMDNURL
