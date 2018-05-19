@@ -1,4 +1,6 @@
-const fs = require('fs');
+const {danger, warn} = require('danger')
 
-const modifiedMD = danger.git.modified_files.join("- ");
-message("Changed Files in this PR: \n - " + modifiedMD);
+const modified = danger.git.modified_files;
+const newFiles = danger.git.created_files;
+
+message(modified.toString());
