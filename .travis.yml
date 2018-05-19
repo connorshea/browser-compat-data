@@ -3,6 +3,16 @@ node_js: stable
 sudo: false
 notifications:
   email: false
+apt:
+  packages:
+    - google-chrome-stable
+install:
+  - npm install
+  - yarn install
+before_script:
+  - yarn danger ci
+script:
+  - npm run test
 deploy:
   provider: npm
   email: mdn-npm@mozilla.com
