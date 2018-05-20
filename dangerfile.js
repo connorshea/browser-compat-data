@@ -41,17 +41,16 @@ modified.forEach(function(fileName, index) {
         await page.goto(`file:${path.join(path.resolve(__dirname), `file${index}.html`) }`);
         await page.screenshot({ path: `full${index}.png`, fullPage: true });
         await browser.close();
+        await imgur.uploadFile(`full${index}.png`)
+          .then(function (response) {
+            let file_url = response.data.link;
+            markdown(`${fileName} ![image](${file_url})`);
+          })
+          .catch(function (err) {
+            console.log("Image upload failure.")
+            console.error(err);
+          });
       })();
-      
-      imgur.uploadFile(`full${index}.png`)
-        .then(function (response) {
-          let file_url = response.data.link;
-          markdown(`${fileName} ![image](${file_url})`);
-        })
-        .catch(function (err) {
-          console.log("Image upload failure.")
-          console.error(err);
-        });
     }
   }
 });
