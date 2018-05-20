@@ -20,16 +20,6 @@ modified.forEach(function(fileName, index) {
       }
 
       renderTable(json, index);
-
-      imgur.uploadFile(`full${index}.png`)
-        .then(function(response) {
-          let file_url = response.data.link;
-          markdown(`${fileName} ![image](${file_url})`);
-        })
-        .catch(function(err) {
-          console.log("Image upload failure.")
-          console.error(err);
-        });
     });
 
     function renderTable(json, index) {
@@ -52,6 +42,16 @@ modified.forEach(function(fileName, index) {
         await page.screenshot({ path: `full${index}.png`, fullPage: true });
         await browser.close();
       })();
+      
+      imgur.uploadFile(`full${index}.png`)
+        .then(function (response) {
+          let file_url = response.data.link;
+          markdown(`${fileName} ![image](${file_url})`);
+        })
+        .catch(function (err) {
+          console.log("Image upload failure.")
+          console.error(err);
+        });
     }
   }
 });
