@@ -10,12 +10,12 @@ const modified = danger.git.modified_files;
 const newFiles = danger.git.created_files;
 
 modified.forEach(function(fileName, index) {
-  console.log(fileName);
   if (fileName.endsWith('.json') && fileName != "package.json") {
     danger.github.utils.fileContents(fileName).then(function(fileContent) {
       try {
         json = JSON.parse(fileContent);
       } catch(e) {
+        console.log("JSON Parse failure.")
         console.log(e);
       }
 
@@ -27,7 +27,8 @@ modified.forEach(function(fileName, index) {
           markdown(`${fileName} ![image](${file_url})`);
         })
         .catch(function(err) {
-          console.error(err.message);
+          console.log("Image upload failure.")
+          console.error(err);
         });
     });
 
