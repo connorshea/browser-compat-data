@@ -7,39 +7,38 @@ const modified = danger.git.modified_files;
 const newFiles = danger.git.created_files;
 
 modified.forEach(function(fileName, index) {
-  danger.github.utils.fileContents(fileName).then(function(fileContent) {
-    json = JSON.parse(fileContent);
+  if (fileName.endsWith('.json')) {
+    danger.github.utils.fileContents(fileName).then(function(fileContent) {
+      json = JSON.parse(fileContent);
 
-    // console.log(json);
+      renderTable(json, index);
 
-    renderTable(json, index);
+      markdown("Test", `full${index}.png`);
+    });
 
-    markdown("Test", `full${index}.png`);
-  });
-});
+    function renderTable(json, index) {
+      let prefix = `<!DOCTYPE html><html><head><link href="file.css" rel="stylesheet" type="text/css"></head><body>`;
+      let suffix = `</body></html>`;
 
+      fs.writeFile(
+        `file${index}.html`,
+        '' + prefix + render(json, { 'query': 'css.at-rules.font-face.WOFF', 'depth': '6' }) + suffix,
+        (err) => {
+          if (err) throw err;
+          console.log('The file has been saved!');
+        }
+      );
 
-function renderTable(json, index) {
-  let prefix = `<!DOCTYPE html><html><head><link href="file.css" rel="stylesheet" type="text/css"></head><body>`;
-  let suffix = `</body></html>`;
-
-  fs.writeFile(
-    `file${index}.html`,
-    '' + prefix + render(json, { 'query': 'css.at-rules.font-face.WOFF', 'depth': '6' }) + suffix,
-    (err) => {
-      if (err) throw err;
-      console.log('The file has been saved!');
+      (async () => {
+        const browser = await puppeteer.launch();
+        const page = await browser.newPage();
+        await page.goto(`file:${path.join(path.resolve(__dirname), `file${index}.html`) }`);
+        await page.screenshot({ path: `full${index}.png`, fullPage: true });
+        await browser.close();
+      })();
     }
-  );
-
-  (async () => {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.goto(`file:${path.join(path.resolve(__dirname), `file${index}.html`) }`);
-    await page.screenshot({ path: `full${index}.png`, fullPage: true });
-    await browser.close();
-  })();
-};
+  }
+});
 
 /*
 

@@ -9,10 +9,9 @@ apt:
 install:
   - npm install
   - yarn install
-before_script:
-  - yarn danger ci
 script:
   - npm run test
+  - yarn danger ci
 deploy:
   provider: npm
   email: mdn-npm@mozilla.com
