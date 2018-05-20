@@ -11,16 +11,24 @@ const newFiles = danger.git.created_files;
 
 modified.forEach(function(fileName, index) {
   console.log(fileName);
-  if (fileName.endsWith('.json') || !fileName == "package.json") {
+  if (fileName.endsWith('.json') && fileName != "package.json") {
     danger.github.utils.fileContents(fileName).then(function(fileContent) {
-      json = JSON.parse(fileContent);
+      try {
+        json = JSON.parse(fileContent);
+      } catch(e) {
+        console.log(e);
+      }
 
       renderTable(json, index);
 
-      imgur.uploadFile(`full${index}.png`).then(function (response) {
-        let file_url = response.data.link;
-        markdown(`${fileName} ![image](${file_url})`);
-      });
+      imgur.uploadFile(`full${index}.png`)
+        .then(function(response) {
+          let file_url = response.data.link;
+          markdown(`${fileName} ![image](${file_url})`);
+        })
+        .catch(function(err) {
+          console.error(err.message);
+        });
     });
 
     function renderTable(json, index) {
