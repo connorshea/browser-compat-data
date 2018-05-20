@@ -2,18 +2,25 @@ const { danger, fail, markdown, message, peril, schedule, warn } = require('dang
 const fs = require('fs');
 const puppeteer = require('puppeteer');
 const path = require('path');
+const imgur = require('imgur');
+
+imgur.setClientId(process.env.IMGUR_CLIENT_ID);
 
 const modified = danger.git.modified_files;
 const newFiles = danger.git.created_files;
 
 modified.forEach(function(fileName, index) {
-  if (fileName.endsWith('.json')) {
+  console.log(fileName);
+  if (fileName.endsWith('.json') || !fileName == "package.json") {
     danger.github.utils.fileContents(fileName).then(function(fileContent) {
       json = JSON.parse(fileContent);
 
       renderTable(json, index);
 
-      markdown("Test", `full${index}.png`);
+      imgur.uploadFile(`full${index}.png`).then(function (response) {
+        let file_url = response.data.link;
+        markdown(`${fileName} ![image](${file_url})`);
+      });
     });
 
     function renderTable(json, index) {

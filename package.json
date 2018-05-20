@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "extend": "3.0.1",
+    "imgur": "^0.2.1",
     "puppeteer": "^1.4.0"
   },
   "repository": {
