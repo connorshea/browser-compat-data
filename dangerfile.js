@@ -30,7 +30,7 @@ modified.forEach(function(fileName, index) {
       );
 
       (async () => {
-        const browser = await puppeteer.launch();
+        const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] });
         const page = await browser.newPage();
         await page.goto(`file:${path.join(path.resolve(__dirname), `file${index}.html`) }`);
         await page.screenshot({ path: `full${index}.png`, fullPage: true });
